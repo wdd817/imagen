@@ -34,4 +34,4 @@ VS Code 1.136.1 + GitHub Copilot 通过本地标准插件完成生成、编辑�
 
 本机完整回归为 56 项通过、0 失败，另 1 项 POSIX 权限测试按平台跳过。npm tarball 已在含空格路径的独立目录安装，通过 Windows CLI shim 的版本和离线 doctor 检查；doctor 未发起网络请求。
 
-源码仓库位于 [wdd817/imagen](https://github.com/wdd817/imagen)。Windows、Linux、macOS 三个平台的 [GitHub Actions 验证均通过](https://github.com/wdd817/imagen/actions/runs/34096786040)。
+源码仓库位于 [wdd817/imagen](https://github.com/wdd817/imagen)。Windows、Linux、macOS 三个平台的验证均已通过，最新结果见 [CI 工作流](https://github.com/wdd817/imagen/actions/workflows/ci.yml)。
