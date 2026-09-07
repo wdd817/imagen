@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "imagen",
+  "version": "0.1.0",
+  "description": "Generate and edit images with configurable OpenAI and Google API profiles.",
+  "author": { "name": "wdd817", "url": "https://github.com/wdd817" },
+  "homepage": "https://github.com/wdd817/imagen#readme",
+  "repository": "https://github.com/wdd817/imagen",
+  "license": "MIT",
+  "keywords": ["image-generation", "image-editing", "mcp", "openai", "gemini", "vertex-ai"]
+}

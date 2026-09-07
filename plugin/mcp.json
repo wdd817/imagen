@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "imagen": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${PLUGIN_ROOT}/runtime/imagen.mjs", "mcp", "--data-dir", "${PLUGIN_DATA}/imagen"],
+      "cwd": "${PLUGIN_ROOT}"
+    }
+  }
+}

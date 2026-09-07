@@ -1,0 +1,50 @@
+{
+  "name": "@wdd817/imagen",
+  "version": "0.1.0",
+  "description": "Portable image generation and editing for agents, through official OpenAI and Google SDKs.",
+  "type": "module",
+  "license": "MIT",
+  "author": "wdd817",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wdd817/imagen.git"
+  },
+  "homepage": "https://github.com/wdd817/imagen#readme",
+  "engines": {
+    "node": ">=24"
+  },
+  "bin": {
+    "imagen": "dist/imagen/runtime/imagen.mjs"
+  },
+  "files": [
+    "dist/imagen/",
+    "README.md",
+    "LICENSE",
+    "docs/"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "validate:plugin": "node scripts/validate-plugin.mjs",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "@google/genai": "2.21.0",
+    "@modelcontextprotocol/server": "2.0.0",
+    "image-dimensions": "2.5.1",
+    "openai": "7.10.0",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "2.0.0",
+    "@types/node": "24.13.3",
+    "ajv": "8.20.0",
+    "esbuild": "0.28.2",
+    "tsx": "4.23.13",
+    "typescript": "7.0.2"
+  }
+}

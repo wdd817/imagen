@@ -1,0 +1,11 @@
+node_modules/
+dist/
+/artifacts/
+/.test-output/
+/.vscode/
+*.tgz
+*.log
+.env
+.env.*
+credentials.json
+.DS_Store
