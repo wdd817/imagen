@@ -1,6 +1,6 @@
 {
   "name": "@wdd817/imagen",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Portable image generation and editing for agents, through official OpenAI and Google SDKs.",
   "type": "module",
   "license": "MIT",

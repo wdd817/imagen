@@ -22,7 +22,7 @@
 ## 安装
 
 ```sh
-npm install --global @wdd817/imagen@0.1.0
+npm install --global @wdd817/imagen@0.1.1
 imagen --help
 ```
 
@@ -38,13 +38,13 @@ node dist/imagen/runtime/imagen.mjs --help
 
 标准插件产物在 `dist/imagen/`，含编译后的程序和所需依赖。使用该插件包时不需要安装 TypeScript 或在首次调用时下载依赖；本机仍需 Node。
 
-## 配置 Example API
+## 配置 API
 
-创建预设并输入 key。交互输入不会显示密钥，也不会把密钥作为命令参数：
+以官方 Gemini Developer API 为例，创建 profile 并输入 API key。交互输入不会显示密钥，也不会把密钥作为命令参数：
 
 ```sh
-imagen configure --preset example
-imagen configure --credential example
+imagen configure --preset gemini
+imagen configure --credential google
 imagen doctor
 imagen capabilities
 ```
@@ -52,10 +52,10 @@ imagen capabilities
 若 key 已经在环境变量中，可以显式导入：
 
 ```sh
-imagen configure --credential example --from-env EXAMPLE_AI_API_KEY
+imagen configure --credential google --from-env GEMINI_API_KEY
 ```
 
-预设使用 `https://api.example.com`。`example-gemini` 为默认 profile，`example-images` 使用 Images API；`example-responses` 的状态按当前联调结果声明，未知能力在提交前报错。不会把 GitHub、npm 或 Codex 登录凭据当成生图 API key。
+Gemini 预设使用官方端点，并创建名为 `gemini` 的 profile。官方 OpenAI Images API 可使用 `imagen configure --preset openai`，再通过 `imagen configure --credential openai` 配置密钥。兼容服务通过自定义 profile 的 `baseUrl` 接入，实际地址和认证信息保存在个人配置中。
 
 默认 CLI 数据目录是 `~/.imagen`：
 
@@ -70,8 +70,8 @@ imagen configure --credential example --from-env EXAMPLE_AI_API_KEY
 ## 生成与编辑
 
 ```sh
-imagen generate --profile example-gemini --prompt "A blue mountain icon on a cream background" --out ./output
-imagen edit --profile example-gemini --target ./output/source.png --prompt "Change the mountain to green" --out ./output
+imagen generate --profile gemini --prompt "A blue mountain icon on a cream background" --out ./output
+imagen edit --profile gemini --target ./output/source.png --prompt "Change the mountain to green" --out ./output
 ```
 
 通过 `--reference` 添加参考图，可重复传入。`--mask` 仅适用于声明支持的编辑 profile。CLI 会把文件和输出目录解析成绝对路径；MCP 调用直接要求绝对路径。
@@ -85,7 +85,7 @@ CLI 前台等待生成结果，stdout 返回 JSON，stderr 显示 job ID；`--js
 ```
 
 ```sh
-imagen generate --profile example-gemini --prompt "A blue mountain icon" --out ./output --options-file ./options.json
+imagen generate --profile gemini --prompt "A blue mountain icon" --out ./output --options-file ./options.json
 ```
 
 Images 常用参数为 `size`、`quality`、`output_format`，如 `{"size":"1024x1024","quality":"low","output_format":"png"}`。实际可用参数由 SDK、模型和 profile 共同决定；未知参数、关键参数冲突或不支持的能力不会静默忽略。

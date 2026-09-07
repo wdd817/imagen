@@ -96,7 +96,7 @@ imagen/
 
 | 维度 | 示例 | 所属层 |
 | --- | --- | --- |
-| 服务商 profile | 一个官方网关或第三方网关实例 | 用户配置 |
+| 服务商 profile | 一个官方服务或兼容服务实例 | 用户配置 |
 | 平台与端点 | 通用 endpoint、Gemini Developer、Vertex project/location | 连接配置 |
 | 请求协议 | images、responses、generate-content、predict | adapter |
 | 认证 | API key、Bearer、Google 凭据链等 | auth resolver |
@@ -257,7 +257,7 @@ VS Code 还支持从 Git 源安装插件，但所选插件目录必须包含可�
 | P3：原生协议与平台扩展 | P2 | 复用 `openai` SDK 接入 Responses；复用 Google SDK 接入 Vertex Gemini / Imagen；补齐 profile、能力 mapper 与认证 | 每条已声明路径有契约测试与对应联调证据；认证失效、参考图和平台差异得到验证 |
 | P4：完整范围发布候选 | P2–P3 | VS Code + GitHub Copilot 实测、标准插件与 npm tarball 打包/安装验证、升级与故障恢复回归、文档、支持矩阵 | 四类目标状态明确；两客户端验收完成；npm 安装后的 CLI/MCP 可用，两类发布包可复现，待定项不得写成通过 |
 
-首个联调平台已确定为 Example API。用户确认可用的路径为 Gemini API 与 Responses API；P1 将优先从这两条已具备访问条件的路径中选择，依据 SDK 接入验证确定具体顺序，并同步调整 P1–P3 的适配器安排。用户目前只能提供服务根地址，文档不作为规划或工程骨架开发的前置条件。表中的 Images 优先顺序作为初始安排，不要求为保持该顺序另行开通账号。四类适配目标均保留在完整交付范围。
+真实联调使用单独配置的兼容服务测试环境，优先验证具有访问条件的接口，并依据 SDK 接入结果调整 P1–P3 的适配器顺序。测试端点和凭据由本地 profile 配置；兼容服务的成功结果不等同于官方服务的验证结果。四类适配目标均保留在完整交付范围。
 
 接口冻结后可并行开展 Responses 适配、Google 平台适配、Skill/打包验收；公共 schema 和任务执行核心集中维护，避免多条分支各自修改接口。
 
@@ -299,9 +299,9 @@ VS Code 还支持从 Git 源安装插件，但所选插件目录必须包含可�
 
 | 信息 | 当前处理 |
 | --- | --- |
-| 首批服务商/网关及模型 | 已确定：Example API，第三方中转站；Gemini API 使用 `gemini-3.1-flash-image`，Responses API 使用 `gpt-image-2`。用户已有可正常调用的 API key |
-| Example API 服务根地址 | 已确定：[https://api.example.com](https://api.example.com)；各 SDK 所需的 API 版本前缀和实际路由待联调验证 |
-| Example API 请求格式与首条联调路径 | 用户目前只能提供服务根地址，无文档或示例可提供；在约定测试范围内通过 SDK 最小调用验证请求格式，再确定 P1–P3 顺序 |
+| 兼容服务测试环境与模型 | Gemini 协议使用 `gemini-3.1-flash-image`，Images / Responses 协议测试使用 `gpt-image-2`；各组合的实际结果见验证记录 |
+| 自定义服务端点 | 通过本地 profile 配置；分别验证各 SDK 所需的 API 版本前缀与实际路由 |
+| 请求格式与联调顺序 | 使用 SDK 最小调用验证参数映射，再根据已验证能力安排 P1–P3 顺序；不根据模型或协议名称推断服务端支持 |
 | 第二个验收环境 | 已确定：VS Code + GitHub Copilot，在 P4 完成实际验收；届时记录 VS Code 与 Copilot 扩展版本 |
 | Vertex 项目、区域、模型族及认证 | 用户已确认有可用 Google Cloud 项目；项目 ID、区域、模型及凭据留到真实联调时配置，不再作为项目准备事项；imagen 的 Vertex SDK 适配与实际联调仍按 P3 验收 |
 | API 联调费用与测试范围 | 已确定：用户不考虑费用消耗，不设置费用上限；按功能验收与故障定位需要安排调用，费用不再作为待确认事项 |
@@ -313,6 +313,6 @@ VS Code 还支持从 Git 源安装插件，但所选插件目录必须包含可�
 | npm 发布账号 | 已确定：`wdd817`；用户完成登录后，已通过 npm whoami 独立核实 |
 | 公共包名 | 已确定：`@wdd817/imagen`；用户确认采用个人作用域包名，发行时核验 registry 状态 |
 
-首次联调已确认 example 的 Gemini 与 Images 生成、编辑可用；`gpt-image-2` 的所测 Responses 请求返回 HTTP 400，因此该预设保留 unknown 状态。Vertex Gemini 生成、编辑已成功，旧 Imagen 型号返回 HTTP 404。详细证据和支持边界见验证记录。API key 仅在本机配置，不写入计划文档。
+兼容服务测试环境的 Gemini 与 Images 生成、编辑已验证；`gpt-image-2` 的所测 Responses 请求返回 HTTP 400，该测试组合仍未通过验证。Vertex Gemini 生成、编辑已成功，所测 Imagen 型号返回 HTTP 404。详细证据和支持边界见验证记录。API key 仅在本机配置，不写入计划文档。
 
-实施过程中按验证结果调整顺序：先完成 example Gemini，再完成 example Images 和 Vertex Gemini。Responses 与 Imagen 的 SDK 契约测试独立保留，未将服务商拒绝响应伪装成真实兼容通过。
+实施过程中按验证结果调整顺序：先完成兼容服务测试环境的 Gemini，再完成 Images 和 Vertex Gemini。Responses 与 Imagen 的 SDK 契约测试独立保留，服务端拒绝响应不计为真实兼容通过。

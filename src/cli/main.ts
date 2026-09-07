@@ -25,7 +25,8 @@ Commands:
   doctor                          Offline installation and credential diagnostics
   configure --import CONFIG.json  Import a profile configuration
   configure --export CONFIG.json  Export profiles (never API keys)
-  configure --preset example          Add example Gemini, Images and an unverified Responses profile
+  configure --preset gemini        Add an official Gemini Developer API profile
+  configure --preset openai        Add an official OpenAI Images API profile
   configure --preset vertex --project ID --location REGION --google-credentials FILE
   configure --credential NAME [--from-env ENV_NAME | --stdin]
   mcp                             Start the stdio MCP server
@@ -99,17 +100,17 @@ async function main(): Promise<void> {
       if (config.profiles[name]) throw new ImagenError('PROFILE_EXISTS', `Profile '${name}' already exists. Export and edit the configuration to change it.`);
       config.profiles[name] = profile;
     };
-    if (values.preset === 'example') {
-      const common = { auth: { kind: 'apiKey' as const, credential: 'example' }, maxCount: 1, maxInputImages: 8, capabilities: baseCapabilities(), evidence: 'Generation and single-image editing verified on example on 2026-09-07; additional reference counts remain provider-dependent.' };
-      add('example-gemini', { ...common, protocol: 'gemini', platform: 'developer', model: 'gemini-3.1-flash-image', baseUrl: 'https://api.example.com', apiVersion: 'v1beta' });
-      add('example-images', { ...common, protocol: 'images', model: 'gpt-image-2', baseUrl: 'https://api.example.com/v1', capabilities: { ...baseCapabilities(), mask: 'unknown' } });
-      add('example-responses', { ...common, protocol: 'responses', model: 'gpt-image-2', baseUrl: 'https://api.example.com/v1', responsesMode: 'tool', capabilities: { generate: 'unknown', edit: 'unknown', references: 'unknown', mask: 'unknown' }, evidence: 'example rejected the tested Responses requests with HTTP 400 on 2026-09-07. Configure a confirmed endpoint/model dialect before enabling this profile.' });
-      config.defaultProfile ??= 'example-gemini';
+    if (values.preset === 'gemini') {
+      add('gemini', { protocol: 'gemini', platform: 'developer', model: 'gemini-3.1-flash-image', baseUrl: 'https://generativelanguage.googleapis.com', apiVersion: 'v1beta', auth: { kind: 'apiKey', credential: 'google' }, maxCount: 1, maxInputImages: 8, capabilities: baseCapabilities(), evidence: 'Configured Gemini Developer API image profile; verify model access and capabilities for your account.' });
+      config.defaultProfile ??= 'gemini';
+    } else if (values.preset === 'openai') {
+      add('openai-images', { protocol: 'images', model: 'gpt-image-2', baseUrl: 'https://api.openai.com/v1', auth: { kind: 'apiKey', credential: 'openai' }, maxCount: 1, maxInputImages: 8, capabilities: { ...baseCapabilities(), mask: 'supported' }, evidence: 'Provider-documented image capabilities; verify model access for your account.' });
+      config.defaultProfile ??= 'openai-images';
     } else if (values.preset === 'vertex') {
       if (!values.project || !values.location || !values['google-credentials']) throw new ImagenError('CONFIGURE_USAGE', 'Vertex requires --project, --location and --google-credentials.');
       add('vertex-gemini', { protocol: 'gemini', platform: 'vertex', model: 'gemini-3.1-flash-image', project: values.project, location: values.location, auth: { kind: 'googleCredentials', file: resolve(values['google-credentials']) }, capabilities: baseCapabilities(), evidence: 'Configured Vertex Gemini profile; confirm model access for this project/location.', maxCount: 1, maxInputImages: 8 });
       config.defaultProfile ??= 'vertex-gemini';
-    } else throw new ImagenError('CONFIGURE_USAGE', 'Supported presets: example, vertex.');
+    } else throw new ImagenError('CONFIGURE_USAGE', 'Supported presets: gemini, openai, vertex.');
     await writeJson(paths.configPath, parseConfig(config));
     print({ configured: true, configPath: paths.configPath, defaultProfile: config.defaultProfile }); return;
   }
