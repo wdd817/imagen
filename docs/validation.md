@@ -28,8 +28,10 @@ Responses adapter 的工具/兼容格式通过真实 SDK 与本地假服务的�
 
 ## 客户端与发行
 
-Codex CLI 0.153.4 已成功安装标准包并实际调用 `imagen_capabilities`。生成/编辑的客户端验证结果在完成后补充。
+Codex CLI 0.153.4 已成功安装标准包，实际调用 `imagen_capabilities`、生成、查询、编辑并获得成功结果。非交互会话通过 CLI 自带的自动审批流程完成写工具授权；未更改工具的权限标注或绕过审批。
 
 VS Code 1.136.1 + GitHub Copilot 通过本地标准插件完成生成、编辑；用户确认成功调用并可以看到图片，工作区存在两张对应 PNG 产物。
 
 本机完整回归为 56 项通过、0 失败，另 1 项 POSIX 权限测试按平台跳过。npm tarball 已在含空格路径的独立目录安装，通过 Windows CLI shim 的版本和离线 doctor 检查；doctor 未发起网络请求。
+
+源码仓库位于 [wdd817/imagen](https://github.com/wdd817/imagen)。Windows、Linux、macOS 三个平台的 [GitHub Actions 验证均通过](https://github.com/wdd817/imagen/actions/runs/34096786040)。

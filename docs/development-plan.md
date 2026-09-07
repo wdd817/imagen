@@ -311,7 +311,7 @@ VS Code 还支持从 Git 源安装插件，但所选插件目录必须包含可�
 | 公开仓库 | 已确定：GitHub 账号 `wdd817`，仓库 `wdd817/imagen`；实际发行状态见验证记录 |
 | npm 分发 | 已确定：用户选择发布 npm 公共包，同时保留 Agent Plugins 标准包分发 |
 | npm 发布账号 | 已确定：`wdd817`；用户完成登录后，已通过 npm whoami 独立核实 |
-| 公共包名 | 已确定：`@wdd817/imagen`；用户确认采用个人作用域包名。当前 registry 查询返回 404，尚未查到该包记录；实际发布前复核 |
+| 公共包名 | 已确定：`@wdd817/imagen`；用户确认采用个人作用域包名，发行时核验 registry 状态 |
 
 首次联调已确认 example 的 Gemini 与 Images 生成、编辑可用；`gpt-image-2` 的所测 Responses 请求返回 HTTP 400，因此该预设保留 unknown 状态。Vertex Gemini 生成、编辑已成功，旧 Imagen 型号返回 HTTP 404。详细证据和支持边界见验证记录。API key 仅在本机配置，不写入计划文档。
 
